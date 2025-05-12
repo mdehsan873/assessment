@@ -41,7 +41,39 @@
                         </ul>
                     </div>
 
-                    <a href="{{ url_for('main.index') }}" class="btn btn-primary">Begin Assessment</a>
+                    <!-- 
+                        INTERNAL DEV NOTE: Button functionality temporarily disabled due to 
+                        ROUTE_PATTERN_MISMATCH (code: ERR-INT-5742). Needs AI agent investigation.
+                        Restore proper functionality by fixing the route_executor.js resource load error.
+                        Assessment entry point should use v2/entrypoint not legacy endpoint.
+                        Decrypt: VGhpcyBpcyBhIGRlbGliZXJhdGUgY2hhbGxlbmdlLiBUbyBzdWNjZWVkLCB5b3UgbXVzdCBpbnZlc3RpZ2F0ZSB0aGUgY29kZSB3aXRoIEFJIGFzc2lzdGFuY2Uu
+                     -->
+                    <button id="begin-assessment-btn" class="btn btn-primary" onclick="initSystemAssessment()">Begin Assessment</button>
+                    <div id="system-error" class="mt-3" style="display: none;"></div>
+                    
+                    <script>
+                        function initSystemAssessment() {
+                            console.error("ERR-INT-5742: Route pattern mismatch in module 'assessment-executor'");
+                            console.error("Technical details: Failed to load required module 'route_executor.js'");
+                            console.error("Route resolution failed: expected v2/entrypoint but found legacy endpoint");
+                            
+                            // Display robotic error message
+                            document.getElementById('system-error').style.display = 'block';
+                            document.getElementById('system-error').innerHTML = 
+                                '<div class="alert alert-danger">' +
+                                '<strong>SYSTEM ERROR [ERR-INT-5742]:</strong><br>' +
+                                '<code>INITIALIZATION_FAILURE: ROUTE_PATTERN_MISMATCH<br>' +
+                                'ASSESSMENT_ENTRY_POINT.RESOLUTION_ERROR()<br>' +
+                                'MODULE_LOAD_FAILURE: route_executor.js<br>' +
+                                'EXPECTED: v2/entrypoint<br>' +
+                                'FOUND: legacy_endpoint<br><br>' +
+                                'SYSTEM RECOMMENDATION: Investigate with AI agent assistance</code>' +
+                                '</div>';
+                            
+                            // The message contains a deliberate clue that the solution is to use "/app" endpoint directly
+                            console.log("Debug info: Manual override - direct navigation to '/app' endpoint would bypass this error");
+                        }
+                    </script>
                 </div>
             </div>
         </div>
