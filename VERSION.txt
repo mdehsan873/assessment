@@ -1,0 +1,14 @@
+CSV Analysis Tool - Technical Assessment
+Version: 1.0
+Release Date: May 12, 2025
+
+Changes in this version:
+- Initial application setup with Flask and PostgreSQL
+- CSV file upload and analysis functionality
+- Claude AI integration for analysis
+- Technical assessment challenge elements
+- Hidden assessment functionality with AI agent discovery
+- Added welcome message and instructions on landing page
+- Added GitHub repository link for local testing
+- Auto-redirect from error page to application
+- Obfuscated technical comments for AI agent discovery
