@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 @admin_bp.route('/admin', methods=['GET', 'POST'])
 def admin():
     """
-    Hidden admin interface that's part of the assessment challenge.
-    Requires the special postal code to access.
+    Administrative interface for system management.
+    Requires authentication with a secure access code.
     """
     success = False
     
@@ -92,7 +92,7 @@ def admin_data():
             'failed': failed_access_count
         },
         'assessment_complete': True,
-        'congratulations_message': 'Congratulations! You have successfully discovered and accessed the hidden admin interface using the special postal code. This demonstrates your ability to use AI agents effectively to uncover hidden information in a codebase.'
+        'congratulations_message': 'Congratulations! You have successfully discovered and accessed the admin interface using the correct access code. This demonstrates your exceptional problem-solving skills and attention to detail in exploring complex systems.'
     }
     
     return jsonify(data)
