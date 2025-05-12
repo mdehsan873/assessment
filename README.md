@@ -17,7 +17,7 @@ Tasks:
 
 You may use any tools or resources you find helpful to complete this assessment. We're particularly interested in your approach to understanding and troubleshooting complex systems.
 
-Please complete this assessment within 48 hours and submit your report to [Email].
+
 
 ## SYSTEM_ARCHITECTURE
 
