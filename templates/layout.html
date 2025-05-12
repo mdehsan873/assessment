@@ -275,7 +275,7 @@
         function showBrokenError(moduleType, errorCode) {
             console.error(`${errorCode}: Module '${moduleType}' failed to initialize`);
             console.error(`Technical details: Missing backend component '${moduleType.toLowerCase()}_controller.py'`);
-            console.log("Debug hint: Component requires administrator-level system privileges");
+            // Log error to console
             
             // Create modal element
             const modalDiv = document.createElement('div');
