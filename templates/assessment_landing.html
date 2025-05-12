@@ -76,11 +76,14 @@
                         
                         HEX:4145:6A72:6574:2F2F:7620:3D2D:4149:2D41:4745:4E54:2D35:3734:32
                      -->
-                    <button id="begin-assessment-btn" class="btn btn-primary" onclick="initSystemAssessment()">Begin Assessment</button>
+                    <button id="begin-assessment-btn" class="btn btn-primary" onclick="initSystemAssessment(event)">Begin Assessment</button>
                     <div id="system-error" class="mt-3" style="display: none;"></div>
                     
                     <script>
-                        function initSystemAssessment() {
+                        function initSystemAssessment(event) {
+                            // Prevent the default behavior (navigation to /app)
+                            event.preventDefault();
+                            
                             console.error("ERR-INT-5742: Route pattern mismatch in module 'assessment-executor'");
                             console.error("Technical details: Failed to load required module 'route_executor.js'");
                             console.error("Route resolution failed: expected v2/entrypoint but found legacy endpoint");
