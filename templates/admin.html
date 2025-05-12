@@ -62,6 +62,11 @@
                                     </div>
                                 </div>
                                 <h4 class="text-center mb-3">🎉 Assessment Completed! 🎉</h4>
+                                <div class="congratulations-image-container text-center mb-3">
+                                    <img src="{{ url_for('static', filename='images/congratulations.png') }}" 
+                                         alt="Congratulations on completing the challenge" 
+                                         class="img-fluid congratulations-image animate-glow">
+                                </div>
                                 <p class="mb-0 text-center">Thank you! Your assessment has been successfully completed. We'll review your submission and contact you soon for the next steps.</p>
                                 {% else %}
                                 <p class="mb-0">Thank you! We'll review your submission and contact you soon.</p>
@@ -174,8 +179,21 @@
                                     }, index * 200);
                                 });
                                 
-                                // Scroll to the success message
-                                const successMessage = document.querySelector('.success-animation');
+                                // Show the congratulations image with animation
+                                const congratsImage = document.querySelector('.congratulations-image');
+                                if (congratsImage) {
+                                    // Make sure the image is initially displayed slightly smaller
+                                    congratsImage.style.transform = 'scale(0.95)';
+                                    
+                                    // Animate to full size
+                                    setTimeout(() => {
+                                        congratsImage.style.transition = 'transform 1s ease-out';
+                                        congratsImage.style.transform = 'scale(1)';
+                                    }, 500);
+                                }
+                                
+                                // Scroll to the success message with the congratulations image
+                                const successMessage = document.querySelector('.congratulations-image-container');
                                 if (successMessage) {
                                     setTimeout(() => {
                                         successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -191,6 +209,19 @@
                                             congratsHeading.classList.remove('pulse');
                                         }, 1000);
                                     }, 3000);
+                                }
+                                
+                                // Enhance the glow effect on mouse hover
+                                if (congratsImage) {
+                                    congratsImage.addEventListener('mouseenter', function() {
+                                        this.style.filter = 'drop-shadow(0 0 20px rgba(0, 200, 255, 0.9))';
+                                        this.style.transform = 'scale(1.05)';
+                                    });
+                                    
+                                    congratsImage.addEventListener('mouseleave', function() {
+                                        this.style.filter = '';
+                                        this.style.transform = 'scale(1)';
+                                    });
                                 }
                             });
                         </script>
