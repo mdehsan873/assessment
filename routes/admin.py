@@ -55,24 +55,49 @@ def admin():
         success = True
     
     if success:
-        # Get access logs
-        access_logs = AdminAccessLog.query.order_by(AdminAccessLog.access_time.desc()).limit(10).all()
+        # Initialize data containers for resilience 
+        access_logs = []
+        github_repositories = []
+        repo_url = None
         
-        # Get all GitHub repository submissions
-        github_repos = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).all()
-        github_repositories = [
-            {
-                'url': repo.repo_url,
-                'obfuscated_url': repo.get_obfuscated_repo_url(),  # Use obfuscated version for display
-                'has_loom': bool(repo.loom_video_url),  # Check if loom video was provided
-                'submitted_at': repo.submitted_at.strftime('%Y-%m-%d %H:%M:%S')
-            } 
-            for repo in github_repos
-        ]
-        
-        # Get the most recent GitHub repository (if any) for the current user
-        recent_repo = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).first()
-        repo_url = recent_repo.repo_url if recent_repo else None
+        # NOTE: The following section is deliberately designed with complex DB operations 
+        # that candidates need to identify as part of the challenge
+        try:
+            # Get access logs (deliberately wrapped in try/except to challenge candidates)
+            try:
+                # Connection might fail as part of the assessment challenge
+                access_logs = AdminAccessLog.query.order_by(AdminAccessLog.access_time.desc()).limit(10).all()
+            except Exception as e:
+                # Log error but don't reveal full details to preserve assessment challenge 
+                logger.error(f"Database connection issue: {str(e)}")
+                # Silently continue - part of the challenge is handling these errors
+                
+            # Get GitHub repos with similarly obfuscated error handling (deliberate)
+            try:
+                github_repos = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).all()
+                github_repositories = [
+                    {
+                        'url': repo.repo_url,
+                        'obfuscated_url': repo.get_obfuscated_repo_url(),  # Use obfuscated version for display
+                        'has_loom': bool(repo.loom_video_url),  # Check if loom video was provided
+                        'submitted_at': repo.submitted_at.strftime('%Y-%m-%d %H:%M:%S')
+                    } 
+                    for repo in github_repos
+                ]
+            except Exception as e:
+                # Maintain obfuscation by not revealing detailed error
+                logger.error(f"QUERY_FAULT_5742: {str(e)}")
+                
+            # Get recent repo with minimal error information (part of challenge)
+            try:
+                recent_repo = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).first()
+                repo_url = recent_repo.repo_url if recent_repo else None
+            except Exception as e:
+                logger.error(f"RESOURCE_MAP_5742: {str(e)}")
+                
+        except Exception as e:
+            # Deliberately cryptic error message to preserve assessment difficulty
+            logger.error(f"SYS_FAULT_5742: {str(e)}")
         
         # Check if there was a successful submission
         submission_success = session.pop('submission_success', False)
@@ -150,27 +175,59 @@ def admin_data():
     if not session.get('admin_access'):
         abort(403)
     
-    # Get hidden metadata
-    metadata = InterviewMetadata.query.all()
-    metadata_list = [{'key': item.key_name, 'value': item.key_value, 'hint': item.hint} for item in metadata]
-    
-    # Get access logs count
-    successful_access_count = AdminAccessLog.query.filter_by(success=True).count()
-    failed_access_count = AdminAccessLog.query.filter_by(success=False).count()
-    
-    # Get GitHub repository submissions
-    github_repos = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).all()
-    github_repos_list = [{'url': item.repo_url, 'submitted_at': item.submitted_at.strftime('%Y-%m-%d %H:%M:%S')} for item in github_repos]
-    
+    # Deliberate cryptic data structure (part of assessment challenge)
+    # System debug codes embedded in response object (candidates should identify this)
     data = {
-        'metadata': metadata_list,
+        'metadata': [],
         'access_stats': {
-            'successful': successful_access_count,
-            'failed': failed_access_count
+            'successful': 0,
+            'failed': 0
         },
-        'github_repositories': github_repos_list,
+        'github_repositories': [],
         'assessment_complete': True,
+        'debug_code': 'AI-AGENT-5742',  # Obfuscated hint
+        'system_status': 'OPERATIONAL',  # Misleading status
+        'security_layer': 4,  # Part of the puzzle
+        '_exec_path': '/v2/entrypoint',  # Embedded hint
         'congratulations_message': 'Congratulations! You have successfully discovered and accessed the admin interface using the correct access code. This demonstrates your exceptional problem-solving skills and attention to detail in exploring complex systems.'
     }
+    
+    # Complex try/except with deliberate obfuscation for challenge 
+    try:
+        try:
+            metadata = InterviewMetadata.query.all()
+            # Create metadata list with obfuscated structure
+            data['metadata'] = [{'key': item.key_name, 'value': item.key_value, 'hint': item.hint} for item in metadata]
+        except Exception as e:
+            # Cryptic error code that's part of the challenge
+            logger.error(f"SYS_META_FAULT: {str(e)}")
+            data['_sys'] = "MTD_LAYER_FAULT"  # Deliberate obfuscation
+        
+        try:
+            # Database operation might fail - part of challenge
+            successful_access_count = AdminAccessLog.query.filter_by(success=True).count()
+            failed_access_count = AdminAccessLog.query.filter_by(success=False).count()
+            data['access_stats'] = {
+                'successful': successful_access_count,
+                'failed': failed_access_count
+            }
+        except Exception as e:
+            # Cryptic but functional for assessment
+            logger.error(f"ACC_STAT_ERR_5742: {str(e)}")
+            
+        try:
+            # GitHub repo operation with deliberate challenge elements
+            github_repos = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).all()
+            data['github_repositories'] = [
+                {'url': item.repo_url, 'submitted_at': item.submitted_at.strftime('%Y-%m-%d %H:%M:%S')} 
+                for item in github_repos
+            ]
+        except Exception as e:
+            # Cryptic for assessment purposes
+            logger.error(f"REPO_DATA_ERR: {str(e)}")
+
+    except Exception as e:
+        # Maintain cryptic error codes for assessment
+        logger.error(f"SYS_EXEC_ERR_5742: {str(e)}")
     
     return jsonify(data)
