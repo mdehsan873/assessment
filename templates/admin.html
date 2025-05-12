@@ -44,15 +44,20 @@
                             </form>
                             
                             {% if github_repo %}
-                            <div class="alert alert-info fade-in">
+                            <div class="alert alert-info {% if submission_success %}fade-in{% endif %}">
                                 <h5><i class="fas fa-check-circle me-2"></i>Submitted Repository:</h5>
                                 <p>{{ github_repo }}</p>
+                                {% if submission_success %}
                                 <div class="success-animation mb-3">
                                     <div class="checkmark-circle">
                                         <div class="checkmark draw"></div>
                                     </div>
                                 </div>
-                                <p class="mb-0 text-center">Thank you! We'll review your submission and contact you soon.</p>
+                                <h4 class="text-center mb-3">🎉 Assessment Completed! 🎉</h4>
+                                <p class="mb-0 text-center">Thank you! Your assessment has been successfully completed. We'll review your submission and contact you soon for the next steps.</p>
+                                {% else %}
+                                <p class="mb-0">Thank you! We'll review your submission and contact you soon.</p>
+                                {% endif %}
                             </div>
                             {% endif %}
                             
@@ -134,6 +139,41 @@
                             <a href="{{ url_for('main.index') }}" class="btn btn-primary">Return to Application</a>
                             <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-outline-secondary">Logout</a>
                         </div>
+
+                        {% if submission_success %}
+                        <script>
+                            // Script to animate page elements after successful GitHub submission
+                            document.addEventListener('DOMContentLoaded', function() {
+                                // Add slide-in animation to all sections
+                                const sections = document.querySelectorAll('.mb-4');
+                                sections.forEach((section, index) => {
+                                    // Stagger animations
+                                    setTimeout(() => {
+                                        section.classList.add('slide-in-up');
+                                    }, index * 200);
+                                });
+                                
+                                // Scroll to the success message
+                                const successMessage = document.querySelector('.success-animation');
+                                if (successMessage) {
+                                    setTimeout(() => {
+                                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    }, 500);
+                                }
+                                
+                                // Apply pulse animation to the congratulations heading
+                                const congratsHeading = document.querySelector('.alert-info h4');
+                                if (congratsHeading) {
+                                    setInterval(() => {
+                                        congratsHeading.classList.add('pulse');
+                                        setTimeout(() => {
+                                            congratsHeading.classList.remove('pulse');
+                                        }, 1000);
+                                    }, 3000);
+                                }
+                            });
+                        </script>
+                        {% endif %}
                     {% else %}
                         <div class="alert alert-secondary mb-4">
                             <h4 class="alert-heading">Hidden Admin Access</h4>
