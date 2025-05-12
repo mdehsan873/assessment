@@ -6,15 +6,15 @@
   },
   "system": {
     "framework": "Flask",
-    "database": "SQLite",
+    "database": "PostgreSQL",
     "ai_integration": "Claude (Anthropic)"
   },
   "features": [
     "CSV file upload and processing",
     "AI-powered data analysis",
     "Data visualization",
-    "Memory optimization",
-    "Database storage"
+    "Database storage",
+    "Hidden assessment challenge"
   ],
   "database_tables": [
     "csv_data",
@@ -51,10 +51,6 @@
   },
   "memory_management": {
     "monitoring_enabled": true,
-    "monitor_interval_seconds": 300,
-    "deliberate_memory_leak": {
-      "enabled": true,
-      "purpose": "assessment"
-    }
+    "monitor_interval_seconds": 300
   }
 }
