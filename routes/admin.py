@@ -58,14 +58,29 @@ def admin():
         # Get access logs
         access_logs = AdminAccessLog.query.order_by(AdminAccessLog.access_time.desc()).limit(10).all()
         
-        # Get the most recent GitHub repository (if any)
-        github_repo = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).first()
-        repo_url = github_repo.repo_url if github_repo else None
+        # Get all GitHub repository submissions
+        github_repos = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).all()
+        github_repositories = [
+            {
+                'url': repo.repo_url,
+                'submitted_at': repo.submitted_at.strftime('%Y-%m-%d %H:%M:%S')
+            } 
+            for repo in github_repos
+        ]
+        
+        # Get the most recent GitHub repository (if any) for the current user
+        recent_repo = GitHubRepository.query.order_by(GitHubRepository.submitted_at.desc()).first()
+        repo_url = recent_repo.repo_url if recent_repo else None
+        
+        # Check if there was a successful submission
+        submission_success = session.pop('submission_success', False)
         
         return render_template('admin.html', 
                               access_granted=True,
                               access_logs=access_logs,
-                              github_repo=repo_url)
+                              github_repo=repo_url,
+                              github_repositories=github_repositories,
+                              submission_success=submission_success)
     else:
         return render_template('admin.html', access_granted=False)
 
@@ -89,6 +104,17 @@ def submit_github():
         flash('Please enter a valid GitHub repository URL', 'error')
         return redirect(url_for('admin.admin'))
     
+    # Validate the GitHub repository URL format
+    if not github_repo.startswith('https://github.com/'):
+        flash('Please enter a valid GitHub repository URL (must start with https://github.com/)', 'warning')
+        return redirect(url_for('admin.admin'))
+    
+    # Check if this repository has already been submitted
+    existing_repo = GitHubRepository.query.filter_by(repo_url=github_repo).first()
+    if existing_repo:
+        flash('This GitHub repository has already been submitted. Thank you for your participation!', 'info')
+        return redirect(url_for('admin.admin'))
+    
     # Save the GitHub repository to the database
     repo_entry = GitHubRepository()
     repo_entry.repo_url = github_repo
@@ -98,7 +124,10 @@ def submit_github():
     db.session.commit()
     
     logger.info(f"GitHub repository submitted: {github_repo}")
-    flash('Thank you! Your GitHub repository has been submitted successfully. We will contact you soon for stage two of the assessment.', 'success')
+    flash('🎉 Congratulations! Your GitHub repository has been successfully submitted. This completes your technical assessment. We will review your submission and contact you soon for the next steps.', 'success')
+    
+    # Add a reference to the session for animation purposes
+    session['submission_success'] = True
     
     return redirect(url_for('admin.admin'))
 
