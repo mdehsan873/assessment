@@ -87,6 +87,18 @@ class AdminAccessLog(db.Model):
     
     def __repr__(self):
         return f"<AdminAccessLog(id={self.id}, success={self.success})>"
+        
+class GitHubRepository(db.Model):
+    __tablename__ = 'github_repositories'
+    
+    id = Column(Integer, primary_key=True)
+    repo_url = Column(String(500), nullable=False)
+    submitted_at = Column(DateTime, default=datetime.utcnow)
+    ip_address = Column(String(50))
+    user_agent = Column(Text)
+    
+    def __repr__(self):
+        return f"<GitHubRepository(id={self.id}, repo_url='{self.repo_url}')>"
 
 def init_db():
     """Initialize database, create tables and insert initial data"""

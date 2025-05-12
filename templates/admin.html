@@ -13,12 +13,43 @@
                 <div class="card-body">
                     {% if access_granted %}
                         <div class="alert alert-success mb-4">
-                            <h4 class="alert-heading">Congratulations!</h4>
+                            <h4 class="alert-heading">🎉 Congratulations! You've Completed the Challenge!</h4>
                             <p>
                                 You have successfully discovered and accessed the hidden admin interface
                                 using the special postal code. This demonstrates your ability to use AI agents
                                 effectively to uncover hidden information in a codebase.
                             </p>
+                        </div>
+                        
+                        <div class="alert alert-warning mb-4">
+                            <h4 class="alert-heading">🎥 Important: Record Your Loom Video</h4>
+                            <p>
+                                <strong>Are you recording and narrating in Loom?</strong> That's the interview requirement!
+                                Please make sure you're recording your screen and voice as you explain how you solved the challenge.
+                            </p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4>Submit Your GitHub Repository</h4>
+                            <p>To proceed to stage two of the assessment process, please provide your GitHub repository URL:</p>
+                            
+                            <form action="{{ url_for('admin.submit_github') }}" method="post" class="mb-4">
+                                <div class="mb-3">
+                                    <label for="github_repo" class="form-label">GitHub Repository URL:</label>
+                                    <input type="url" class="form-control" id="github_repo" name="github_repo" 
+                                           placeholder="https://github.com/yourusername/yourrepo" required>
+                                    <div class="form-text">We'll use this to contact you for stage two of the assessment.</div>
+                                </div>
+                                <button type="submit" class="btn btn-success">Submit Repository</button>
+                            </form>
+                            
+                            {% if github_repo %}
+                            <div class="alert alert-info">
+                                <h5>Submitted Repository:</h5>
+                                <p>{{ github_repo }}</p>
+                                <p class="mb-0">Thank you! We'll review your submission and contact you soon.</p>
+                            </div>
+                            {% endif %}
                         </div>
                         
                         <div class="mb-4">
