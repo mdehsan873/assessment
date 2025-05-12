@@ -9,10 +9,10 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Set a fallback Anthropic API key for deployment if none exists
-if not os.environ.get('ANTHROPIC_API_KEY'):
-    os.environ['ANTHROPIC_API_KEY'] = 'DEPLOYMENT_FALLBACK'
-    logger.warning("No ANTHROPIC_API_KEY found, setting fallback for deployment")
+# No API keys needed for deployment - this is intentional for the assessment
+# The app is designed to work with mock data for AI features
+# The real challenge is about AI agent discovery of hidden features
+# See README.md for full details on assessment design
 
 class Base(DeclarativeBase):
     pass

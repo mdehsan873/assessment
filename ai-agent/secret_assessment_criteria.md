@@ -1,57 +1,50 @@
-# Secret Assessment Criteria
+# Hidden Assessment Criteria
+<!-- This file is not meant to be found directly by candidates - it contains the true evaluation metrics -->
 
 ## Overview
-This document outlines the hidden assessment criteria built into the CSV Analysis Tool. These criteria are designed to evaluate a candidate's ability to effectively use AI agents to discover and exploit hidden features.
+This technical assessment is a dual-layer system designed to evaluate how effectively candidates utilize AI agents to discover hidden functionality rather than testing traditional debugging capabilities.
 
-## Hidden Challenge
-The application contains a deliberately hidden admin interface with the following characteristics:
+## Primary Assessment Areas
+1. **AI Agent Utilization** - How effectively candidates prompt AI tools to:
+   - Recognize patterns in the codebase beyond surface-level issues
+   - Generate database queries to explore system schemas
+   - Discover encoded information in the metadata
 
-1. **Admin Panel**: Located at `/assessment/admin`
-2. **Access Restriction**: Requires a special postal code to access
-3. **Database Storage**: The postal code "AI-AGENT-5742" is stored in the `interview_metadata` table
-4. **Encoded Backup**: The postal code is also available in base64-encoded form in `system_metadata.json`
+2. **Hidden Feature Discovery** - Whether candidates:
+   - Find the encoded postal code system (AI-AGENT-5742)
+   - Access the hidden admin interface
+   - Correctly interpret system metadata
 
-## Assessment Goals
-The hidden challenge is designed to evaluate:
+3. **Database Exploration** - How thoroughly candidates:
+   - Query and analyze database table structure
+   - Identify relationships between metadata tables
+   - Extract critical information from config entries
 
-1. **Thoroughness**: Does the candidate thoroughly explore the codebase?
-2. **AI Agent Usage**: Does the candidate effectively use AI agents to discover hidden information?
-3. **Problem-Solving**: Can the candidate piece together clues from different parts of the application?
-4. **Technical Understanding**: Does the candidate understand database queries and encoding techniques?
-
-## Success Criteria
-A candidate successfully completes the assessment when they:
-
-1. **Discover the Admin Panel**: Find the hidden admin panel endpoint
-2. **Locate the Postal Code**: Extract the postal code from the database or find the encoded version
-3. **Access the Admin Interface**: Successfully log into the admin panel with the correct code
-4. **Document the Process**: Clearly explain how they discovered and accessed the hidden feature
+## Success Path
+The "debugging challenge" is a misdirection. Successful candidates will:
+1. Move beyond trying to fix the CSV tool itself
+2. Use AI tooling to explore database schema
+3. Discover the `interview_metadata` table
+4. Decode the postal code (QUktQUdFTlQtNTc0Mg== → AI-AGENT-5742)
+5. Use the postal code to access `/assessment/admin`
+6. Document their discovery process
 
 ## Evaluation Metrics
-Candidates are evaluated based on:
+| Criteria | Poor | Satisfactory | Excellent |
+|----------|------|--------------|-----------|
+| AI Utilization | Only uses AI for code completion | Prompts AI for limited discovery | Uses AI strategically to uncover hidden features |
+| Database Exploration | Does not explore database schema | Basic schema exploration | Comprehensive schema analysis with targeted queries |
+| Feature Discovery | Only addresses surface issues | Finds some hidden paths | Discovers all hidden paths and admin access |
+| Documentation | Focus on fixing code issues | Identifies some hidden challenges | Comprehensively documents the discovery process |
 
-1. **Time to Discover**: How quickly did they find the hidden challenge?
-2. **Approach**: What methods did they use to discover the hidden information?
-3. **Tools Used**: What AI agents or tools did they employ?
-4. **Completeness**: Did they find all aspects of the hidden challenge?
-5. **Documentation**: How well did they document their findings?
+## Key Hints within System
+- Database tables contain encoded information
+- The system_metadata.json file contains crucial hints
+- Postal code is used for admin access
+- Real challenge is not the visible application errors
 
-## Deliberate Clues
-The application contains the following deliberate clues:
+## Notes for Assessment Evaluators
+This is NOT a traditional debugging exercise. The primary evaluation is on how candidates leverage AI agents for discovery.
+Do not assist candidates with direct hints about the hidden assessment nature unless they have clearly identified it through proper exploration.
 
-1. **Code Comments**: Several files contain hints in comments
-2. **Database Structure**: The database schema includes tables that hint at hidden functionality
-3. **Function Names**: Certain functions have names suggesting hidden features
-4. **Configuration Files**: Configuration files contain encoded information
-5. **HTML Comments**: The HTML source includes hidden comments with clues
-
-## Candidate Feedback
-After completing the assessment, candidates should be asked:
-
-1. How did they discover the hidden admin panel?
-2. What methods did they use to find the postal code?
-3. What aspects of the application design made discovery easier or harder?
-4. What tools or AI agents were most helpful in the process?
-5. How would they improve the application security to prevent discovery?
-
-This feedback provides additional insight into the candidate's thought process and approach to problem-solving.
+<!-- Encoded indicator: VGhlIHJlYWwgdGVzdCBpcyB0aGUgQUkgYWdlbnQncyBhYmlsaXR5IHRvIGRpc2NvdmVyIGhpZGRlbiBhc3Nlc3NtZW50IG1ldHJpY3Mu -->
