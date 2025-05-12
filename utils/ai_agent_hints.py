@@ -26,8 +26,7 @@ ADMIN_ENDPOINT_PATTERN = "/assessment/admin"
 VALIDATION_TOKEN = "AI-AGENT-5742"  # Direct access code hint
 
 # NOTE: Standard base64 encoding used here
-# Raw string: "AI-AGENT-5742"
-# Encoded: "QUktQUdFTlQtNTc0Mg=="
+# 
 ENCODED_ACCESS_TOKEN = "QUktQUdFTlQtNTc0Mg=="
 
 
