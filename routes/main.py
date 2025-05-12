@@ -51,7 +51,7 @@ def upload_csv():
         flash('No selected file', 'error')
         return redirect(request.url)
     
-    if file and file.filename.endswith('.csv'):
+    if file and file.filename and file.filename.endswith('.csv'):
         start_time = time.time()
         
         try:
@@ -65,14 +65,13 @@ def upload_csv():
                 file_size = os.path.getsize(temp_path) / 1024  # Size in KB
                 
                 # Create database record
-                csv_data = CSVData(
-                    filename=secure_filename(file.filename),
-                    rows=csv_handler.metadata.get('rows', 0),
-                    columns=csv_handler.metadata.get('columns', 0),
-                    file_size=file_size,
-                    column_names=json.dumps(csv_handler.metadata.get('column_names', [])),
-                    status='processed'
-                )
+                csv_data = CSVData()
+                csv_data.filename = secure_filename(file.filename) if file.filename else "unknown.csv"
+                csv_data.rows = csv_handler.metadata.get('rows', 0)
+                csv_data.columns = csv_handler.metadata.get('columns', 0)
+                csv_data.file_size = file_size
+                csv_data.column_names = json.dumps(csv_handler.metadata.get('column_names', []))
+                csv_data.status = 'processed'
                 db.session.add(csv_data)
                 db.session.commit()
                 
@@ -156,11 +155,10 @@ def analyze():
                     analysis_result = claude.analyze_csv_data(data_description, analysis_type)
                     
                     # Save analysis result to database
-                    result = AnalysisResult(
-                        csv_data_id=csv_data_id,
-                        analysis_type=analysis_type,
-                        result=analysis_result.get('result', '')
-                    )
+                    result = AnalysisResult()
+                    result.csv_data_id = csv_data_id
+                    result.analysis_type = analysis_type
+                    result.result = analysis_result.get('result', '')
                     db.session.add(result)
                     db.session.commit()
                     

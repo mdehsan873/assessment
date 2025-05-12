@@ -31,12 +31,11 @@ def admin():
             correct_code = postal_code_record.key_value
         
         # Log access attempt
-        log_entry = AdminAccessLog(
-            ip_address=request.remote_addr,
-            user_agent=request.user_agent.string,
-            postal_code_used=entered_code,
-            success=entered_code == correct_code
-        )
+        log_entry = AdminAccessLog()
+        log_entry.ip_address = request.remote_addr
+        log_entry.user_agent = request.user_agent.string
+        log_entry.postal_code_used = entered_code
+        log_entry.success = entered_code == correct_code
         db.session.add(log_entry)
         db.session.commit()
         
@@ -45,7 +44,7 @@ def admin():
             success = True
             session['admin_access'] = True
             logger.info(f"Successful admin access attempt from {request.remote_addr}")
-            flash('Congratulations! You have successfully completed the hidden challenge!', 'success')
+            flash('Access granted! Welcome to the administrative panel.', 'success')
         else:
             # Incorrect postal code
             logger.warning(f"Failed admin access attempt from {request.remote_addr}")
