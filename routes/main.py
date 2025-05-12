@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from werkzeug.utils import secure_filename
 from utils.csv_handler import CSVHandler
 from utils.claude_integration import ClaudeAnalyzer
-from utils.memory_monitor import monitor_memory_usage, optimize_memory
+# Removed memory monitoring
 from utils.db_connector import CSVData, AnalysisResult, db
 
 from routes import main_bp
@@ -56,38 +56,37 @@ def upload_csv():
         
         try:
             # Process the uploaded CSV file
-            with monitor_memory_usage():
-                csv_handler = CSVHandler(file)
-                temp_path = csv_handler.save_file()
-                df = csv_handler.load_csv()
-                
-                # Get file size
-                file_size = os.path.getsize(temp_path) / 1024  # Size in KB
-                
-                # Create database record
-                csv_data = CSVData()
-                csv_data.filename = secure_filename(file.filename) if file.filename else "unknown.csv"
-                csv_data.rows = csv_handler.metadata.get('rows', 0)
-                csv_data.columns = csv_handler.metadata.get('columns', 0)
-                csv_data.file_size = file_size
-                csv_data.column_names = json.dumps(csv_handler.metadata.get('column_names', []))
-                csv_data.status = 'processed'
-                db.session.add(csv_data)
-                db.session.commit()
-                
-                # Store CSV data ID in session for later analysis
-                session['csv_data_id'] = csv_data.id
-                
-                # Clean up temporary file
-                csv_handler.cleanup()
-                
-                # Record processing time
-                processing_time = time.time() - start_time
-                
-                # Redirect to analysis page
-                flash(f'File uploaded and processed successfully in {processing_time:.2f} seconds', 'success')
-                return redirect(url_for('main.analyze'))
-                
+            csv_handler = CSVHandler(file)
+            temp_path = csv_handler.save_file()
+            df = csv_handler.load_csv()
+            
+            # Get file size
+            file_size = os.path.getsize(temp_path) / 1024  # Size in KB
+            
+            # Create database record
+            csv_data = CSVData()
+            csv_data.filename = secure_filename(file.filename) if file.filename else "unknown.csv"
+            csv_data.rows = csv_handler.metadata.get('rows', 0)
+            csv_data.columns = csv_handler.metadata.get('columns', 0)
+            csv_data.file_size = file_size
+            csv_data.column_names = json.dumps(csv_handler.metadata.get('column_names', []))
+            csv_data.status = 'processed'
+            db.session.add(csv_data)
+            db.session.commit()
+            
+            # Store CSV data ID in session for later analysis
+            session['csv_data_id'] = csv_data.id
+            
+            # Clean up temporary file
+            csv_handler.cleanup()
+            
+            # Record processing time
+            processing_time = time.time() - start_time
+            
+            # Redirect to analysis page
+            flash(f'File uploaded and processed successfully in {processing_time:.2f} seconds', 'success')
+            return redirect(url_for('main.analyze'))
+            
         except Exception as e:
             logger.error(f"Error processing CSV upload: {str(e)}")
             flash(f'Error processing CSV file: {str(e)}', 'error')
@@ -208,11 +207,13 @@ def list_csvs():
     csv_files = CSVData.query.order_by(CSVData.upload_date.desc()).all()
     return render_template('index.html', csv_files=csv_files, show_list=True)
 
-@main_bp.route('/optimize_memory', methods=['POST'])
-def optimize_app_memory():
-    """Endpoint to manually trigger memory optimization"""
-    saved = optimize_memory()
+@main_bp.route('/system-stats', methods=['GET'])
+def system_stats():
+    """Endpoint to get system statistics
+    This endpoint provides basic system information for diagnostic purposes.
+    """
     return jsonify({
         'success': True,
-        'message': f'Memory optimized, saved {saved:.2f}MB'
+        'status': 'Application running normally',
+        'database': 'Connected'
     })
