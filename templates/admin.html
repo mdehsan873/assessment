@@ -30,17 +30,25 @@
                         </div>
                         
                         <div class="mb-4">
-                            <h4 class="animated-heading">Submit Your GitHub Repository</h4>
-                            <p>To proceed to stage two of the assessment process, please provide your GitHub repository URL:</p>
+                            <h4 class="animated-heading">Submit Your Assessment</h4>
+                            <p>Please provide your GitHub repository URL and Loom video recording to complete the assessment:</p>
                             
                             <form action="{{ url_for('admin.submit_github') }}" method="post" class="mb-4">
                                 <div class="mb-3">
-                                    <label for="github_repo" class="form-label">GitHub Repository URL:</label>
+                                    <label for="github_repo" class="form-label"><i class="fab fa-github me-1"></i> GitHub Repository URL:</label>
                                     <input type="url" class="form-control" id="github_repo" name="github_repo" 
                                            placeholder="https://github.com/yourusername/yourrepo" required>
-                                    <div class="form-text">We'll use this to contact you for stage two of the assessment.</div>
+                                    <div class="form-text">Enter the URL to your GitHub repository containing the assessment solution.</div>
                                 </div>
-                                <button type="submit" class="btn btn-success"><i class="fas fa-check-circle me-2"></i>Submit Repository</button>
+                                
+                                <div class="mb-3">
+                                    <label for="loom_video_url" class="form-label"><i class="fas fa-video me-1"></i> Loom Video URL:</label>
+                                    <input type="url" class="form-control" id="loom_video_url" name="loom_video_url" 
+                                           placeholder="https://www.loom.com/share/your-video-id">
+                                    <div class="form-text">Share your Loom recording explaining how you solved the challenge (required).</div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-success"><i class="fas fa-check-circle me-2"></i>Submit Assessment</button>
                             </form>
                             
                             {% if github_repo %}
@@ -70,17 +78,30 @@
                                             <tr>
                                                 <th>Date Submitted</th>
                                                 <th>Repository</th>
+                                                <th>Loom Video</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for repo in github_repositories %}
                                             <tr class="candidate-entry">
                                                 <td>{{ repo.submitted_at }}</td>
-                                                <td><a href="{{ repo.url }}" target="_blank">{{ repo.url }}</a></td>
+                                                <td>
+                                                    <!-- Only admin see the full URL in title attribute -->
+                                                    <a href="{{ repo.url }}" target="_blank" title="Full URL only visible to admin">
+                                                        {{ repo.obfuscated_url }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {% if repo.has_loom %}
+                                                    <span class="badge bg-success"><i class="fas fa-check"></i> Provided</span>
+                                                    {% else %}
+                                                    <span class="badge bg-secondary"><i class="fas fa-times"></i> Not provided</span>
+                                                    {% endif %}
+                                                </td>
                                             </tr>
                                             {% else %}
                                             <tr>
-                                                <td colspan="2" class="text-center text-muted">No submissions yet - you could be the first!</td>
+                                                <td colspan="3" class="text-center text-muted">No submissions yet - you could be the first!</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

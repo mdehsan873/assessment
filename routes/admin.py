@@ -63,6 +63,8 @@ def admin():
         github_repositories = [
             {
                 'url': repo.repo_url,
+                'obfuscated_url': repo.get_obfuscated_repo_url(),  # Use obfuscated version for display
+                'has_loom': bool(repo.loom_video_url),  # Check if loom video was provided
                 'submitted_at': repo.submitted_at.strftime('%Y-%m-%d %H:%M:%S')
             } 
             for repo in github_repos
@@ -93,12 +95,13 @@ def admin_logout():
 
 @admin_bp.route('/admin/submit_github', methods=['POST'])
 def submit_github():
-    """Submit GitHub repository URL"""
+    """Submit GitHub repository URL and Loom video URL"""
     if not session.get('admin_access'):
         flash('You must be logged in to submit a repository', 'error')
         return redirect(url_for('admin.admin'))
     
     github_repo = request.form.get('github_repo', '')
+    loom_video_url = request.form.get('loom_video_url', '')
     
     if not github_repo:
         flash('Please enter a valid GitHub repository URL', 'error')
@@ -109,22 +112,32 @@ def submit_github():
         flash('Please enter a valid GitHub repository URL (must start with https://github.com/)', 'warning')
         return redirect(url_for('admin.admin'))
     
+    # Validate the Loom video URL format (optional but if provided, must be valid)
+    if loom_video_url and not (loom_video_url.startswith('https://www.loom.com/') or 
+                              loom_video_url.startswith('https://loom.com/')):
+        flash('Please enter a valid Loom video URL (must start with https://loom.com/ or https://www.loom.com/)', 'warning')
+        return redirect(url_for('admin.admin'))
+    
     # Check if this repository has already been submitted
     existing_repo = GitHubRepository.query.filter_by(repo_url=github_repo).first()
     if existing_repo:
         flash('This GitHub repository has already been submitted. Thank you for your participation!', 'info')
         return redirect(url_for('admin.admin'))
     
-    # Save the GitHub repository to the database
+    # Save the GitHub repository and Loom video URL to the database
     repo_entry = GitHubRepository()
     repo_entry.repo_url = github_repo
+    repo_entry.loom_video_url = loom_video_url
     repo_entry.ip_address = request.remote_addr
     repo_entry.user_agent = request.user_agent.string
     db.session.add(repo_entry)
     db.session.commit()
     
     logger.info(f"GitHub repository submitted: {github_repo}")
-    flash('🎉 Congratulations! Your GitHub repository has been successfully submitted. This completes your technical assessment. We will review your submission and contact you soon for the next steps.', 'success')
+    if loom_video_url:
+        logger.info(f"Loom video submitted: {loom_video_url}")
+    
+    flash('🎉 Congratulations! Your GitHub repository and Loom video have been successfully submitted. This completes your technical assessment. We will review your submission and contact you soon for the next steps.', 'success')
     
     # Add a reference to the session for animation purposes
     session['submission_success'] = True

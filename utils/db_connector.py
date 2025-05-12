@@ -93,12 +93,28 @@ class GitHubRepository(db.Model):
     
     id = Column(Integer, primary_key=True)
     repo_url = Column(String(500), nullable=False)
+    loom_video_url = Column(String(500))
     submitted_at = Column(DateTime, default=datetime.utcnow)
     ip_address = Column(String(50))
     user_agent = Column(Text)
     
     def __repr__(self):
         return f"<GitHubRepository(id={self.id}, repo_url='{self.repo_url}')>"
+        
+    def get_obfuscated_repo_url(self):
+        """
+        Returns an obfuscated version of the repository URL where only
+        the first 15 characters are visible and the rest are replaced with asterisks.
+        """
+        repo_url = self.repo_url
+        if not repo_url or repo_url == "":
+            return ""
+        
+        visible_part = repo_url[:15]
+        remaining_length = max(0, len(repo_url) - 15)
+        asterisks = "*" * min(remaining_length, 15)  # Show at least some asterisks, max 15
+        
+        return f"{visible_part}{asterisks}"
 
 def init_db():
     """Initialize database, create tables and insert initial data"""
