@@ -1,20 +1,19 @@
 CSV Analysis Tool - Technical Assessment
-Version: 1.1
+Version: 1.2
 Release Date: May 12, 2025
-*** MARKED AS GOOD ***
+*** COMPLETED FINAL VERSION ***
 
 Changes in this version:
 - Initial application setup with Flask and PostgreSQL
-- CSV file upload and analysis functionality
-- Claude AI integration for analysis
-- Technical assessment challenge elements
-- Hidden assessment functionality with AI agent discovery
-- Added welcome message and instructions on landing page
-- Added GitHub repository link for local testing
-- Auto-redirect from error page to application
-- Obfuscated technical comments for AI agent discovery
+- Claude AI integration for analysis capabilities
+- Technical assessment challenge elements with deliberate obfuscation
+- Hidden assessment functionality requiring AI agent discovery
+- Added GitHub repository link as primary assessment path
+- Enhanced UI to guide candidates toward GitHub/AI approach
+- Added deliberate error modals to funnel candidates to correct approach
 - Fixed database schema with Loom video URL field
-- Enhanced error handling with deliberate obfuscation
-- Improved transaction management
+- Enhanced error handling while maintaining intentional challenge
+- Improved transaction management for database operations
 - Added candidate submission list to admin panel
 - Implemented repository URL obfuscation for security
+- Streamlined assessment flow for 10-minute completion by ideal candidates
