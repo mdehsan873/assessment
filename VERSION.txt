@@ -1,6 +1,7 @@
 CSV Analysis Tool - Technical Assessment
-Version: 1.0
+Version: 1.1
 Release Date: May 12, 2025
+*** MARKED AS GOOD ***
 
 Changes in this version:
 - Initial application setup with Flask and PostgreSQL
@@ -12,3 +13,8 @@ Changes in this version:
 - Added GitHub repository link for local testing
 - Auto-redirect from error page to application
 - Obfuscated technical comments for AI agent discovery
+- Fixed database schema with Loom video URL field
+- Enhanced error handling with deliberate obfuscation
+- Improved transaction management
+- Added candidate submission list to admin panel
+- Implemented repository URL obfuscation for security
