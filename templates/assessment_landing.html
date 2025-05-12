@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="card-title mb-0">CSV Analysis Tool - Technical Assessment</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> This is a technical assessment for software development skills.
+                    </div>
+
+                    <h4>Welcome to the CSV Analysis Tool Assessment</h4>
+                    <p>This assessment evaluates your technical problem-solving abilities using a real-world application scenario.</p>
+                    
+                    <div class="mb-4">
+                        <h5>Your Tasks:</h5>
+                        <ol>
+                            <li>Explore this codebase to understand its structure and functionality</li>
+                            <li>Identify and fix any issues that prevent the application from working properly</li>
+                            <li>Document your approach and any challenges you encountered</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>About This Application</h5>
+                        <p>The CSV Analysis Tool helps users upload CSV files and analyze them with advanced AI capabilities. Your goal is to ensure it works correctly.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Assessment Criteria</h5>
+                        <p>You will be evaluated on:</p>
+                        <ul>
+                            <li>Code comprehension and analysis techniques</li>
+                            <li>Problem-solving approach and solution quality</li>
+                            <li>Attention to detail</li>
+                            <li>Documentation quality</li>
+                        </ul>
+                    </div>
+
+                    <a href="{{ url_for('main.index') }}" class="btn btn-primary">Begin Assessment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

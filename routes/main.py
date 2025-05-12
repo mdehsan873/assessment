@@ -14,10 +14,21 @@ from routes import main_bp
 logger = logging.getLogger(__name__)
 
 @main_bp.route('/')
+def landing():
+    """Render the assessment landing page explaining the purpose and instructions"""
+    return render_template('assessment_landing.html')
+
+@main_bp.route('/app')
 def index():
     """Render the main application interface"""
     # Get recent CSV uploads
-    recent_uploads = CSVData.query.order_by(CSVData.upload_date.desc()).limit(5).all()
+    try:
+        recent_uploads = CSVData.query.order_by(CSVData.upload_date.desc()).limit(5).all()
+    except Exception as e:
+        # This is a deliberate error that candidates need to fix
+        # Part of the assessment is identifying and fixing database connectivity issues
+        logger.error(f"Database error when fetching recent uploads: {str(e)}")
+        recent_uploads = []
     
     # Check if Claude integration is available
     claude = ClaudeAnalyzer()
