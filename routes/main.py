@@ -13,9 +13,14 @@ from routes import main_bp
 
 logger = logging.getLogger(__name__)
 
-@main_bp.route('/')
+@main_bp.route('/', methods=['GET'])
 def landing():
     """Render the assessment landing page explaining the purpose and instructions"""
+    if request.headers.get('X-Replit-Health-Check') == 'true':
+        # This is a health check request, return a successful response
+        return "OK", 200
+    
+    # Regular request - render the template
     return render_template('assessment_landing.html')
 
 @main_bp.route('/app')

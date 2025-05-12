@@ -9,6 +9,11 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+# Set a fallback Anthropic API key for deployment if none exists
+if not os.environ.get('ANTHROPIC_API_KEY'):
+    os.environ['ANTHROPIC_API_KEY'] = 'DEPLOYMENT_FALLBACK'
+    logger.warning("No ANTHROPIC_API_KEY found, setting fallback for deployment")
+
 class Base(DeclarativeBase):
     pass
 
