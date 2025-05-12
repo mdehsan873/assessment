@@ -116,14 +116,13 @@
                         <div class="mb-4">
                             <h4>Assessment Information</h4>
                             <p>
-                                This hidden admin panel is part of a technical assessment designed to
-                                evaluate your ability to:
+                                This is the administrator panel for this application.
                             </p>
                             <ul>
-                                <li>Discover hidden features in a codebase</li>
-                                <li>Use AI agents to extract information from databases</li>
-                                <li>Navigate complex systems</li>
-                                <li>Find creative solutions to challenges</li>
+                                <li>Submit your technical assessment results</li>
+                                <li>View access logs and submission history</li>
+                                <li>Manage application settings</li>
+                                <li>Complete required assessment tasks</li>
                             </ul>
                         </div>
                         
@@ -226,10 +225,9 @@
                         {% endif %}
                     {% else %}
                         <div class="alert alert-secondary mb-4">
-                            <h4 class="alert-heading">Hidden Admin Access</h4>
+                            <h4 class="alert-heading">Admin Access</h4>
                             <p>
-                                This is a restricted area. Access requires the special postal code.
-                                This area is part of the hidden technical assessment challenge.
+                                This is a restricted area. Access requires proper authentication.
                             </p>
                         </div>
                         
@@ -237,7 +235,7 @@
                             <div class="mb-3">
                                 <label for="postal_code" class="form-label">Enter Postal Code:</label>
                                 <input type="text" class="form-control" id="postal_code" name="postal_code" required>
-                                <div class="form-text">Hint: This code is stored in the database.</div>
+                                <div class="form-text">Enter your access code.</div>
                             </div>
                             
                             <button type="submit" class="btn btn-primary">Access Admin</button>
