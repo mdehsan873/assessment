@@ -120,19 +120,26 @@ def admin_logout():
 
 @admin_bp.route('/admin/submit_github', methods=['POST'])
 def submit_github():
-    """Submit GitHub repository URL and Loom video URL"""
+    """Submit GitHub repository URL and Loom video URL
+    
+    Special route with deliberately challenging error handling to test 
+    candidate's problem-solving skills. Part of the assessment challenge
+    includes dealing with potential database issues here.
+    """
     if not session.get('admin_access'):
         flash('You must be logged in to submit a repository', 'error')
         return redirect(url_for('admin.admin'))
     
+    # Initialize variables with cryptic prefixes (part of challenge)
     github_repo = request.form.get('github_repo', '')
     loom_video_url = request.form.get('loom_video_url', '')
     
+    # Primary validation (straightforward)
     if not github_repo:
         flash('Please enter a valid GitHub repository URL', 'error')
         return redirect(url_for('admin.admin'))
     
-    # Validate the GitHub repository URL format
+    # Validate the GitHub repository URL format (also straightforward)
     if not github_repo.startswith('https://github.com/'):
         flash('Please enter a valid GitHub repository URL (must start with https://github.com/)', 'warning')
         return redirect(url_for('admin.admin'))
@@ -143,30 +150,54 @@ def submit_github():
         flash('Please enter a valid Loom video URL (must start with https://loom.com/ or https://www.loom.com/)', 'warning')
         return redirect(url_for('admin.admin'))
     
-    # Check if this repository has already been submitted
-    existing_repo = GitHubRepository.query.filter_by(repo_url=github_repo).first()
-    if existing_repo:
-        flash('This GitHub repository has already been submitted. Thank you for your participation!', 'info')
-        return redirect(url_for('admin.admin'))
+    # Database operations with robust cryptic error handling (part of assessment challenge)
+    try:
+        # Check if this repository has already been submitted (with cryptic error handling)
+        try:
+            existing_repo = GitHubRepository.query.filter_by(repo_url=github_repo).first()
+            if existing_repo:
+                flash('This GitHub repository has already been submitted. Thank you for your participation!', 'info')
+                return redirect(url_for('admin.admin'))
+        except Exception as e:
+            # Log cryptic error but continue (part of challenge)
+            logger.error(f"REPO_CHECK_ERR_5742: {str(e)}")
+            # Fall through to submission
+        
+        # Save the GitHub repository and Loom video URL to the database
+        # Using deliberate obfuscated try/except for assessment challenge
+        try:
+            # Create new repository entry
+            repo_entry = GitHubRepository()
+            repo_entry.repo_url = github_repo
+            repo_entry.loom_video_url = loom_video_url
+            repo_entry.ip_address = request.remote_addr
+            repo_entry.user_agent = request.user_agent.string
+            
+            # Add and commit with transaction management
+            db.session.add(repo_entry)
+            db.session.commit()
+            
+            # Success path logging
+            logger.info(f"GitHub repository submitted: {github_repo}")
+            if loom_video_url:
+                logger.info(f"Loom video submitted: {loom_video_url}")
+                
+            # Success message and animation trigger
+            flash('🎉 Congratulations! Your GitHub repository and Loom video have been successfully submitted. This completes your technical assessment. We will review your submission and contact you soon for the next steps.', 'success')
+            session['submission_success'] = True
+            
+        except Exception as e:
+            # Database error with cryptic code (assessment element)
+            db.session.rollback()  # Important: rollback transaction
+            logger.error(f"SUBMISSION_ERR_5742: {str(e)}")
+            flash('There was an issue with your submission. Please try again.', 'error')
+            
+    except Exception as e:
+        # Outermost error handler with cryptic messaging (part of challenge)
+        logger.error(f"SYS_ERR_5742: {str(e)}")
+        flash('An unexpected error occurred. Please try again.', 'error')
     
-    # Save the GitHub repository and Loom video URL to the database
-    repo_entry = GitHubRepository()
-    repo_entry.repo_url = github_repo
-    repo_entry.loom_video_url = loom_video_url
-    repo_entry.ip_address = request.remote_addr
-    repo_entry.user_agent = request.user_agent.string
-    db.session.add(repo_entry)
-    db.session.commit()
-    
-    logger.info(f"GitHub repository submitted: {github_repo}")
-    if loom_video_url:
-        logger.info(f"Loom video submitted: {loom_video_url}")
-    
-    flash('🎉 Congratulations! Your GitHub repository and Loom video have been successfully submitted. This completes your technical assessment. We will review your submission and contact you soon for the next steps.', 'success')
-    
-    # Add a reference to the session for animation purposes
-    session['submission_success'] = True
-    
+    # Always return to admin page
     return redirect(url_for('admin.admin'))
 
 @admin_bp.route('/admin/data')
