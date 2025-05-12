@@ -144,7 +144,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">
+            <a class="navbar-brand" href="{{ url_for('main.landing') }}">
                 <i class="fas fa-table me-2"></i>
                 CSV Analysis Tool
             </a>
@@ -154,12 +154,14 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.index') }}">
+                        <!-- Deliberately broken upload link - part of assessment challenge -->
+                        <a class="nav-link" href="javascript:void(0)" onclick="showBrokenError('UPLOAD_MODULE_ERROR', 'ERR-INT-5742')">
                             <i class="fas fa-upload me-1"></i> Upload
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.list_csvs') }}">
+                        <!-- Deliberately broken history link - part of assessment challenge -->
+                        <a class="nav-link" href="javascript:void(0)" onclick="showBrokenError('HISTORY_MODULE_ERROR', 'ERR-INT-5743')">
                             <i class="fas fa-list me-1"></i> History
                         </a>
                     </li>
@@ -204,8 +206,9 @@
                 <div class="col-md-3">
                     <h5>Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url_for('main.index') }}" class="text-light">Home</a></li>
-                        <li><a href="{{ url_for('main.list_csvs') }}" class="text-light">History</a></li>
+                        <li><a href="{{ url_for('main.landing') }}" class="text-light">Home</a></li>
+                        <!-- Deliberately broken links - part of assessment challenge -->
+                        <li><a href="javascript:void(0)" onclick="showBrokenError('HISTORY_MODULE_ERROR', 'ERR-INT-5743')" class="text-light">History</a></li>
                         <!-- Debug tools removed in production -->
                         <!-- <li><a href="/debug" class="text-light">Debug Info</a></li> -->
                     </ul>
@@ -213,8 +216,9 @@
                 <div class="col-md-3">
                     <h5>Resources</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-light">Documentation</a></li>
-                        <li><a href="#" class="text-light">API Reference</a></li>
+                        <!-- Deliberately broken links - part of assessment challenge -->
+                        <li><a href="javascript:void(0)" onclick="showBrokenError('DOCS_MODULE_ERROR', 'ERR-INT-5744')" class="text-light">Documentation</a></li>
+                        <li><a href="javascript:void(0)" onclick="showBrokenError('API_MODULE_ERROR', 'ERR-INT-5745')" class="text-light">API Reference</a></li>
                     </ul>
                 </div>
             </div>
@@ -231,6 +235,66 @@
     
     <!-- Custom JavaScript -->
     <script src="/static/js/main.js"></script>
+    
+    <!-- Deliberately obfuscated error handling - part of assessment challenge -->
+    <script>
+        // Function to show error messages for broken links (deliberate part of assessment)
+        function showBrokenError(moduleType, errorCode) {
+            console.error(`${errorCode}: Module '${moduleType}' failed to initialize`);
+            console.error(`Technical details: Missing backend component '${moduleType.toLowerCase()}_controller.py'`);
+            console.log("Debug hint: Component requires administrator-level system privileges");
+            
+            // Create modal element
+            const modalDiv = document.createElement('div');
+            modalDiv.className = 'modal fade';
+            modalDiv.id = 'errorModal';
+            modalDiv.setAttribute('tabindex', '-1');
+            modalDiv.setAttribute('aria-labelledby', 'errorModalLabel');
+            modalDiv.setAttribute('aria-hidden', 'true');
+            
+            // Cryptic error message with hidden clue about using GitHub and AI agent
+            modalDiv.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title" id="errorModalLabel">System Error [${errorCode}]</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-danger">
+                                <strong>INITIALIZATION_FAILURE:</strong> MODULE_LOAD_ERROR<br>
+                                <code>${moduleType}.CONTROLLER_MISSING()<br>
+                                COMPONENT_LOAD_FAILURE: ${moduleType.toLowerCase()}_controller.py<br>
+                                ERROR_CODE: ${errorCode}</code>
+                                
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        Debug info: This functionality requires access to the source repository.<br>
+                                        Consider analyzing codebase with an <span style="opacity:0.5">intelligent agent</span> 
+                                        for improved navigation.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>`;
+            
+            // Add modal to document
+            document.body.appendChild(modalDiv);
+            
+            // Show the modal
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+            
+            // Remove modal from DOM after it's hidden
+            document.getElementById('errorModal').addEventListener('hidden.bs.modal', function () {
+                document.body.removeChild(modalDiv);
+            });
+        }
+    </script>
     
     {% block scripts %}{% endblock %}
     
