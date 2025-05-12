@@ -1,0 +1,119 @@
+{% extends 'layout.html' %}
+
+{% block title %}Analysis Results{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h2 class="card-title mb-0">Analysis Results</h2>
+                    <a href="{{ url_for('main.index') }}" class="btn btn-sm btn-light">Back to Upload</a>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4>File Information</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th style="width: 150px;">Filename</th>
+                                    <td>{{ csv_data.filename }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Size</th>
+                                    <td>{{ "%.2f"|format(csv_data.file_size / 1024) }} MB</td>
+                                </tr>
+                                <tr>
+                                    <th>Rows</th>
+                                    <td>{{ csv_data.rows }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Columns</th>
+                                    <td>{{ csv_data.columns }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Upload Date</th>
+                                    <td>{{ csv_data.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Analysis Type</th>
+                                    <td>
+                                        <span class="badge bg-info">{{ analysis.analysis_type }}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4>Claude AI Analysis</h4>
+                        <div class="alert alert-secondary p-4" style="white-space: pre-line;">
+                            {{ analysis.result }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4>Visualizations</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Data Distribution</h5>
+                                        <canvas id="distributionChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Key Metrics</h5>
+                                        <canvas id="metricsChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back to Upload</a>
+                        <div>
+                            <button id="downloadReport" class="btn btn-success">Download Report</button>
+                            <button id="rerunAnalysis" class="btn btn-outline-primary">Run Different Analysis</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/charts.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sample data for demonstration - in a real app, this would come from the backend
+        const csvData = {
+            columns: {{ csv_data.column_names|safe }},
+            rows: {{ csv_data.rows }}
+        };
+        
+        // Initialize sample charts
+        createSampleDistributionChart('distributionChart', csvData);
+        createSampleMetricsChart('metricsChart', csvData);
+        
+        // Download report button
+        document.getElementById('downloadReport').addEventListener('click', function() {
+            alert('Report download functionality would be implemented here');
+            // In a real implementation, this would generate and download a PDF or CSV report
+        });
+        
+        // Rerun analysis button
+        document.getElementById('rerunAnalysis').addEventListener('click', function() {
+            window.location.href = "{{ url_for('main.analyze') }}";
+        });
+    });
+</script>
+{% endblock %}

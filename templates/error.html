@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="card-title">Error</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h4 class="alert-heading">{{ error_title }}</h4>
+                        <p>{{ error_message }}</p>
+                    </div>
+                    
+                    {% if error_details %}
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title">Error Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <pre class="bg-light p-3 rounded">{{ error_details }}</pre>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="alert alert-info">
+                        <h5>What You Can Do:</h5>
+                        <ul>
+                            <li>Return to the <a href="{{ url_for('main.index') }}">homepage</a> and try again</li>
+                            <li>Check if the CSV file format is correct</li>
+                            <li>Make sure the file size is under the allowed limit (16MB)</li>
+                        </ul>
+                    </div>
+                    
+                    <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+                        <i class="fas fa-home me-1"></i> Return to Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
