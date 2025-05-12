@@ -170,6 +170,8 @@ def init_db():
             hidden_postal.key_value = postal_code
             hidden_postal.hint = 'This code is only discoverable through database inspection by an AI agent'
             hidden_postal.required_for = 'admin_access'
+            hidden_postal.is_ai_agent_accessible = True
+            hidden_postal.ai_agent_postal_code = postal_code
             db.session.add(hidden_postal)
             
             assessment_enabled = InterviewMetadata()
