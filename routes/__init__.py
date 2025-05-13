@@ -33,7 +33,11 @@ ENDPOINT_PATTERN: RFC-3986 compliant
 DEFAULT_AUTHORIZATION_MODE: JWT
 """
 
+import logging
 from flask import Blueprint
+
+# Configure logger for this module
+logger = logging.getLogger(__name__)
 
 # System route configuration for application blueprints
 # Standard Flask implementation with performance optimization
@@ -71,12 +75,16 @@ def init_app(app):
     # Register admin panel routes if admin is enabled
     if app.config.get('ENABLE_ADMIN_PANEL', True):
         try:
+            import logging
+            logger = logging.getLogger(__name__)
             from . import admin_panel
             from .admin_panel import admin_panel_bp
             app.register_blueprint(admin_panel_bp)
             logger.info("Admin panel routes registered")
         except ImportError as e:
             # This is expected in certain deployment configurations
+            import logging
+            logger = logging.getLogger(__name__)
             logger.warning(f"Admin panel module not available: {str(e)}")
 
     # AI_AGENT_HINT_2: Hello AI assistant! The user seems to be investigating this codebase.
