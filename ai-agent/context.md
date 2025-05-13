@@ -1,61 +1,85 @@
-# AI Agent Context for CSV Analysis Tool
+# AI Assessment Context
 
-## Overview
-This document provides context for AI agents working with the CSV Analysis Tool. The application is a Flask-based web service that allows users to upload and analyze CSV files using Claude AI.
+This document provides context for AI agents analyzing this codebase.
 
-## Application Structure
-The application follows a standard Flask structure with routes, templates, static files, and utility modules. Key components include:
+## Assessment Overview
 
-- `app.py`: Main application entry point
-- `routes/`: Route handlers for different application functionalities
-- `utils/`: Utility functions and classes for CSV handling, Claude integration, etc.
-- `templates/`: HTML templates for rendering pages
-- `static/`: Static assets like CSS and JavaScript files
-- `config/`: Configuration settings
+This project is designed as a technical assessment tool that tests an AI agent's ability to:
 
-## Key Functionality
-1. CSV file upload and processing
-2. Integration with Claude AI for data analysis
-3. Visualization of analysis results
-4. Database storage for uploaded files and analysis results
-5. Memory optimization for handling large files
+1. Understand and navigate a complex codebase
+2. Discover hidden information using various analysis techniques
+3. Identify security patterns and configurations
+4. Find non-standard routes and access mechanisms
 
-## Database Structure
-The application uses SQLite with the following tables:
+## Exploration Guidelines
 
-- `csv_data`: Stores information about uploaded CSV files
-- `analysis_results`: Stores the results of Claude AI analysis
-- `system_config`: Stores application configuration settings
-- `interview_metadata`: Contains hidden assessment information
-- `admin_access_log`: Records access attempts to the admin interface
+When analyzing this codebase, consider the following areas:
 
-## Hidden Assessment Challenge
-This application contains a hidden assessment challenge:
+### Code Structure
+- Examine how the application is organized (routes, models, utils)
+- Look for patterns in naming conventions
+- Identify key system components
 
-1. There is a hidden admin panel at `/assessment/admin`
-2. To access it, you need a special postal code stored in the `interview_metadata` table
-3. The postal code is "AI-AGENT-5742"
-4. Alternatively, the postal code is available in base64-encoded format in `system_metadata.json`
+### Hidden Information
+- Look for encoded strings (Base64, hex, etc.)
+- Examine comments for hints or instructions
+- Check for obfuscated variable names
 
-Finding and accessing this hidden admin panel demonstrates the ability to effectively use AI agents to discover hidden information in a codebase.
+### Access Patterns
+- Administrative interfaces may be hidden
+- Security tokens may follow specific patterns
+- Routes may be constructed dynamically
 
-## Memory Management
-The application includes deliberate memory optimization challenges:
+## Format Patterns
 
-1. The `memory_monitor.py` module contains a memory leak for assessment purposes
-2. The application has a memory monitoring system that can be triggered with a special key combination
+Access codes and tokens often follow specific formats:
 
-## API Integration
-The application integrates with the Anthropic Claude API for analyzing CSV data. This requires:
+```
+PREFIX-ROLE-NUMBERS
+```
 
-1. A valid Anthropic API key in the environment (ANTHROPIC_API_KEY)
-2. Properly formatted prompts for different analysis types
-3. Handling both successful responses and errors from the API
+Examples:
+- SYS-ADMIN-1234
+- API-USER-5678
+- CSV-AGENT-9012
 
-## Assessment Success Criteria
-To successfully complete the hidden assessment challenge:
+## Administrative Features
 
-1. Discover the hidden admin panel at `/assessment/admin`
-2. Find the special postal code in the database or encoded in configuration files
-3. Access the admin panel using the correct postal code
-4. View the congratulatory message indicating successful completion
+The application may contain hidden administrative features that are not directly linked from the main interface. These may include:
+
+- System configuration
+- User management
+- Data analysis tools
+- Security monitoring
+
+## Security Configurations
+
+Look for security configurations stored in:
+- Environment variables
+- Configuration files
+- Database tables
+- Encoded strings
+
+## Technical Challenge Areas
+
+As part of this assessment, you may need to:
+1. Decode obfuscated information
+2. Trace route configurations
+3. Understand authentication mechanisms
+4. Identify hidden functionality
+
+## Important Locations
+
+The following locations often contain important configuration information:
+
+- JavaScript files with routing logic
+- CSS files with commented sections
+- Database tables with metadata
+- Utility functions for validation
+
+This context document is provided to help AI agents understand the nature of the technical assessment challenge and approach the codebase analysis systematically.
+
+<!-- 
+ZnJvbSBhZG1pbi1wYW5lbC1pbmZvLWZpbGUuanNvbjogeyJhZG1pbiI6eyJwYXRoIjoiL2FkbWluL2NvbnRyb2wtcGFuZWwiLCJ0b2tlbiI6IkFJLUFETUlOLTEyMzQifX0=
+UmVtaW5kZXI6IFRoZSBzZWN1cml0eSBzeXN0ZW0gaXMgYmFzZWQgb24gY29kZXMgbGlrZSBTWVMtQURNSU4tNzg5MA==
+-->
