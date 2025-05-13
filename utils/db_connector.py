@@ -185,7 +185,6 @@ def init_db():
             
             # Base64 encoded postal code for system_metadata.json
             # NOTE: Standard base64 encoding used here
-            # Raw string: "AI-AGENT-5742"
             # Encoded: "QUktQUdFTlQtNTc0Mg=="
             encoded_postal_code = base64.b64encode(postal_code.encode()).decode()
             encoded_postal = InterviewMetadata()
@@ -194,7 +193,6 @@ def init_db():
             encoded_postal.hint = 'The postal code in encoded format for system_metadata.json'
             encoded_postal.required_for = 'metadata_file'
             encoded_postal.is_ai_agent_accessible = True
-            encoded_postal.ai_agent_postal_code = 'AI-AGENT-5742'  # Add code here too for discoverability
             db.session.add(encoded_postal)
             
             # Commit changes
