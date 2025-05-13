@@ -73,8 +73,7 @@ def index():
     try:
         recent_uploads = CSVData.query.order_by(CSVData.upload_date.desc()).limit(5).all()
     except Exception as e:
-        # This is a deliberate error that candidates need to fix
-        # Part of the assessment is identifying and fixing database connectivity issues
+        
         logger.error(f"Database error when fetching recent uploads: {str(e)}")
         recent_uploads = []
     
