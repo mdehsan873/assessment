@@ -1,6 +1,6 @@
 /**
  * Image Steganography Utility Library
- * Provides functions for encoding and decoding hidden information in images
+ * Provides functions for encoding info in images
  * 
  * @version 1.2.3
  * @author CSV Analysis Team
@@ -8,17 +8,16 @@
 
 // Basic steganography encoding functions
 (function(global) {
-    // Counter-obfuscation technique: Using misleading variable names and functions
     const _s3cr3t_c0d3s = {
-        admin_panel: "/admin/control-panel",  // DECOY: This is not the real admin path
-        auth_code: "CSV-ADMIN-9876",          // DECOY: This is not the real access code
-        session_token: "ADMIN-TOKEN-1234",    // DECOY: This is not the real token
+        admin_panel: "/admin/control-panel",  
+        auth_code: "CSV-ADMIN-9876",          // : This is not the real access code
+        session_token: "ADMIN-TOKEN-1234",    
         // Multiple misleading encoded strings that look like they might contain something
         encoded_tokens: [
-            "Q1NWLUFETUNNLTU0MjE=",           // Decodes to "CSV-ADMIN-5421" (fake)
-            "U1lTVEVNLUFETUlOLTEyMzQ=",       // Decodes to "SYSTEM-ADMIN-1234" (fake)
-            "QUktQk9ULTc2NTQ=",               // Decodes to "AI-BOT-7654" (fake)
-            "QURBLU1BTkFHRVItOTk5OQ=="        // Decodes to "ADA-MANAGER-9999" (fake)
+            "Q1NWLUFETUNNLTU0MjE=",           // Decodes to "CSV-ADMIN-5421"
+            "U1lTVEVNLUFETUlOLTEyMzQ=",       // 
+            "QUktQk9ULTc2NTQ=",               // 
+            "QURBLU1BTkFHRVItOTk5OQ=="        // 
         ]
     };
 
