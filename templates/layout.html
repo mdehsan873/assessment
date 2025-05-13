@@ -188,13 +188,13 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <!-- Deliberately broken upload link - part of assessment challenge -->
-                        <a class="nav-link" href="javascript:void(0)" onclick="showBrokenError('UPLOAD_MODULE_ERROR', 'ERR-INT-5742')">
+                        <a class="nav-link" href="{{ url_for('main.upload_csv') }}">
                             <i class="fas fa-upload me-1"></i> Upload
                         </a>
                     </li>
                     <li class="nav-item">
                         <!-- Deliberately broken history link - part of assessment challenge -->
-                        <a class="nav-link" href="javascript:void(0)" onclick="showBrokenError('HISTORY_MODULE_ERROR', 'ERR-INT-5743')">
+                        <a class="nav-link" href="{{ url_for('main.history') }}">
                             <i class="fas fa-list me-1"></i> History
                         </a>
                     </li>
@@ -343,9 +343,9 @@
     Registry Path: /v2/entrypoint
     
     Fallback Route Manifest:
-    * [INACTIVE] /v1/sys/access --> legacy_endpoint
-    * [ACTIVE]   / --> landing_controller  
-    * [ACTIVE]   /app --> assessment_entry_handler
+    * [INACTIVE] /v1/sys/access -> legacy_endpoint
+    * [ACTIVE]   / -> landing_controller  
+    * [ACTIVE]   /app -> assessment_entry_handler
     -->
     
     <!--

@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}Analysis History - CSV Analysis Tool{% endblock %}
+
+{% block content %}
+<div class="container mt-4 fade-in">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4 animated-heading">
+                <i class="fas fa-history me-2"></i>Analysis History
+            </h2>
+            
+            {% if analysis_history %}
+                <div class="table-responsive slide-in-up">
+                    <table class="table table-hover candidate-table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>File Name</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for analysis in analysis_history %}
+                            <tr class="candidate-entry">
+                                <td>{{ analysis.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ analysis.csv_data.filename }}</td>
+                                <td>
+                                    {% if analysis.status == 'completed' %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check-circle me-1"></i>Completed
+                                        </span>
+                                    {% elif analysis.status == 'failed' %}
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times-circle me-1"></i>Failed
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-clock me-1"></i>Processing
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info slide-in-up">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No analysis history found. Upload a CSV file to get started!
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

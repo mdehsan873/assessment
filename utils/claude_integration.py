@@ -1,9 +1,6 @@
-import os
-import sys
 import json
-import anthropic
 import logging
-from anthropic import Anthropic
+
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +70,7 @@ class ClaudeAnalyzer:
             """
         
         elif analysis_type == "recommendations":
-            result = f"""
+            result = """
             ## Recommendations Based on Data Analysis
             
             After reviewing this dataset, here are key recommendations:

