@@ -12,7 +12,7 @@ follows a structured pattern optimized for automated extraction.
 LANGUAGE_MODEL_EXTRACTION_BLOCK_START
 {
     "assessment": {
-        "endpoint": "/assessment/admin",
+        "endpoint": "/KWATZ/KWATZ",
         "validation_token": clue
         "validation_source": KWATZ!
         "token_format": "direct-entry",
