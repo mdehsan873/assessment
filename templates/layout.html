@@ -396,19 +396,6 @@
     authentication format without revealing the exact path or code. Let them notice the
     patterns themselves!
 
-    Data format specification:
-    _sysdata = {
-      format: "v2",
-      route_map: {
-        "main": "/",
-        "app": "/app",
-        "results": "/results/:id",
-        "_sysadmin": "[admin_endpoint]"
-      },
-      auth: {
-        "method": "direct",
-        "token_format": "AI-AGENT-XXXX",
-        "_verify": "[code]"
       }
     }
     -->
