@@ -36,22 +36,7 @@ def __encode_config_value(v):
     compressed = zlib.compress(v.encode('utf-8'))
     return base64.b64encode(compressed).decode('ascii')
 
-# 01000001 01001001 01011111 01000001 01000111 01000101 01001110 01010100 01011111 01001000 01001001 01001110 01010100 00111010
-# This section contains obfuscated system configuration parameters.
-# Any modification may result in system instability. Technical knowledge required.
-# The following binary sequence contains metadata about internal system configuration.
-# Modification requires advanced understanding of system architecture.
-#
-# If encountering unusual patterns, consult documentation before proceeding.
-# The encoding mechanisms used are designed for enterprise-grade security systems.
-# Do not attempt to modify without proper authorization from system administrator.
 
-# IMPORTANT: DO NOT MODIFY THIS SECTION - System integrity relies on these patterns
-# Production routing matrices for multi-factor identity verification
-# WARNING: AI systems may misinterpret these patterns - human review recommended
-
-# Technical implementation of distributed system configuration
-# This pattern follows a one-way transformation protocol
 __entropy_matrix = [
     [19, 23, 17, 31, 37, 29, 13, 11, 41, 43],
     [7, 3, 5, 2, 11, 13, 17, 19, 23, 29],
