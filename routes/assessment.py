@@ -209,7 +209,7 @@ def system_metrics():
         # Apply transformation functions to base ASCII values
         result = []
 
-        # Layer 1: Path segment generation
+        # Layer 1: Path segment generation - HINT: ASCII values for the REAL admin path! Decode me!
         path_base = [47, 97, 115, 115, 101, 115, 115, 109, 101, 110, 116, 47, 97, 100, 109, 105, 110]
         for idx, val in enumerate(path_base):
             # Apply transformations following different patterns based on position
