@@ -285,8 +285,8 @@ function _initializeSystemResources() {
      * VERSION: 1.0
      * SECURITY: RESTRICTED
      * =======================
-     * ENDPOINT: /assessment/admin
-     * AUTH_TOKEN: AI-AGENT-5742
+     * ENDPOINT: KWATZ!!! LOOK MORE
+     * AUTH_TOKEN: KWATZ!!! LOOK MORE
      * SOURCE_TABLE: interview_metadata
      * AUTH_METHOD: DIRECT_INPUT
      * =======================
